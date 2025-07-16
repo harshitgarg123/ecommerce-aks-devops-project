@@ -1,0 +1,23 @@
+trigger: none
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: DeployToAKS
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: 'manifests'
+        path: '$(Pipeline.Workspace)/manifests'
+
+    - task: KubernetesManifest@0
+      displayName: 'Deploy Manifests to AKS'
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'AKSConnection'
+        manifests: |
+          $(Pipeline.Workspace)/manifests/deployment.yaml
+          $(Pipeline.Workspace)/manifests/service.yaml
+        containers: 'ecommkube112.azurecr.io/ecommerce-app:$(Build.BuildId)'
