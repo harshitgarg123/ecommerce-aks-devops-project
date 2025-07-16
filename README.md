@@ -45,5 +45,3 @@ Run the scripts in `scripts/provision-resources.sh` and `scripts/assign-roles.sh
 ## Testing
 - Build locally: `docker build -t ecommerce-app .`
 - Deploy locally (with minikube): `kubectl apply -f deployment.yaml -f service.yaml`
-
-For questions, contact [your email].
